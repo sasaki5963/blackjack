@@ -22,6 +22,23 @@ def deal():
 deal()
 print(hand)
 
+def total():
+  score = 0
+  for card in hand:
+    if card == "J" or card == "Q" or card == "K":
+      score = score + 10
+    elif card == "A":
+      if score >= 11:
+        score = score + 1
+      else:
+        score += 11
+    else:
+      score += card 
+  return score
+
+player_score = total()
+print(player_score)
+
 def play_again():
   again = input("もう１度プレイしますか？　(Y/N): ")
   if again == "y" or again == "Y":
