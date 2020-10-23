@@ -63,10 +63,34 @@ def play_again():
 def game():
   dealer_hand = deal()
   player_hand = deal()
-  print(f"ディーラーは{dealer_hand[0]}です")
-  print(f"プレイヤーは{player_hand}です")
-  print(total(dealer_hand))
-  print(total(player_hand))
+  print(f"ディーラーのカードは{dealer_hand[0]}です")
+  print(f"プレイヤーのカードは{player_hand}　合計が{total(player_hand)}です")
+
+  choice = 0
+
+  while choice != quit:
+    choice = input("ヒットしますか？　スタンドしますか？ (HIT/STAND): ").lower()
+    if choice == "hit":
+      hit(player_hand)
+      print(
+        f"\nあなたに {player_hand[-1]} が配られ、カードは{player_hand} 合計は {total(player_hand)} です。")
+      if total(player_hand) > 21:
+        print("あなたは 21 を超えてしまいました。 YOU LOSE...")
+        choice = quit
+
+    elif choice == "stand":
+      print(
+        f"\nディーラーの2枚目のカードは{dealer_hand[1]} 合計は{total(dealer_hand)} です。")
+      while total(dealer_hand) < 17:
+        hit(dealer_hand)
+      print (
+        f"ディーラーに {dealer_hand[-1]} が配られ、カードは{dealer_hand} 合計は {total(dealer_hand)} です。")
+      if total(dealer_hand) > 21:
+        print("ディーラーは 21 を超えてしまいました。 YOU WIN!")
+        choice = quit
+
+      #result
+      choice = quit
 
 
 game()
