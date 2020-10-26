@@ -1,3 +1,12 @@
+# ? Color
+# * END    = \033[0m
+# * GREEN  = \033[32m
+# * YELLOW = \033[33m
+# * BLUE   = \033[34m
+# * VIOLET = \033[35m
+# * CYAN   = \033[36m
+# * RED    = \033[91m
+
 import random
 
 deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] * 4
@@ -60,6 +69,15 @@ def play_again():
     exit()
 
 
+def result(dealer_hand, player_hand):
+  if total(player_hand) > total(dealer_hand):
+    print(
+      f"\nディーラーの合計は {total(dealer_hand)} あなたの合計は {total(player_hand)} です。YOU WIN!")
+  elif total(dealer_hand) > total(player_hand):
+    print(
+      f"\nディーラーの合計は {total(dealer_hand)} あなたの合計は {total(player_hand)} です。YOU LOSE...")
+
+
 def game():
   dealer_hand = deal()
   player_hand = deal()
@@ -89,8 +107,9 @@ def game():
         print("ディーラーは 21 を超えてしまいました。 YOU WIN!")
         choice = quit
 
-      #result
-      choice = quit
+      if total(dealer_hand) <= 21:
+        result(dealer_hand, player_hand)
+        choice = quit
 
 
 game()
