@@ -8,14 +8,25 @@ class Card():
   def __repr__(self):
     return f'{self.suit} {self.number}'
 
-trump = Card('❤︎',10)
-print(trump)
-
 class Deck():
 
   def __init__(self):
     suits = ['♠︎', '❤︎', '♣︎', '♦︎']
-    numbers = ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'J', 'Q', 'K']
+    numbers = [
+      {'key': 'A', 'value': 11},
+      {'key': '2', 'value': 2},
+      {'key': '3', 'value': 3},
+      {'key': '4', 'value': 4},
+      {'key': '5', 'value': 5},
+      {'key': '6', 'value': 6},
+      {'key': '7', 'value': 7},
+      {'key': '8', 'value': 8},
+      {'key': '9', 'value': 9},
+      {'key': '10', 'value': 10},
+      {'key': 'J', 'value': 10},
+      {'key': 'Q', 'value': 10},
+      {'key': 'K', 'value': 10},
+    ]
 
     self.cards = []
 
@@ -29,12 +40,8 @@ class Deck():
   def shuffle(self):
     random.shuffle(self.cards)
 
-print(Deck().cards)
-
-hand = Deck().deal()
-print(hand)
-
-dekki = Deck()
-dekki.shuffle()
-hand2 = dekki.deal()
-print(hand2)
+trump = Deck().deal()
+print(trump)
+print(trump.number)
+print(trump.number['key'])
+print(trump.number['value'])
