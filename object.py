@@ -8,6 +8,7 @@ class Card():
   def __repr__(self):
     return f'{self.suit} {self.number}'
 
+
 class Deck():
 
   def __init__(self):
@@ -40,8 +41,41 @@ class Deck():
   def shuffle(self):
     random.shuffle(self.cards)
 
-trump = Deck().deal()
-print(trump)
-print(trump.number)
-print(trump.number['key'])
-print(trump.number['value'])
+
+class Hand():
+
+  def __init__(self, dealer=False):
+    self.dealer = dealer
+    self.cards = []
+    self.total = 0
+
+  def add_card(self, card):
+    self.cards.append(card)
+
+  def calc_value(self):
+    self.value = 0
+    ace = False
+    for card in self.cards:
+      self.value += int(card.number['value'])
+      if card.number['key'] == 'A':
+        ace = True
+
+    if ace and self.value > 21:
+      self.value -= 10
+
+    return print(self.value)
+
+  def is_blackjack(self):
+    return self.calc_value() == 21
+
+deck = Deck()
+deck.shuffle()
+
+player_hand = Hand()
+dealer_hand = Hand(dealer=True)
+
+player_hand.add_card(deck.deal())
+dealer_hand.add_card(deck.deal())
+
+player_hand.calc_value()
+dealer_hand.calc_value()
