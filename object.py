@@ -80,10 +80,52 @@ class Hand():
       if index == 0 and self.dealer and not show_two_cards and not self.is_blackjack():
         pass
       else:
-        print(card)
+        print(f"{card.suit} {card.number['key']}")
     if not self.dealer:
       print('Total:', self.calc_value())
     print()
+
+class Game():
+
+  def check_winner(self, player_hand, dealer_hand, game_over=False):
+    if not game_over:
+      if player_hand.calc_value() > 21:
+        print('あなたは21を超えました. Dealer wins!')
+        return True
+      elif dealer_hand.calc_value() > 21:
+        print('ディーラーは21を超えました. You win!')
+        return True
+      elif player_hand.is_blackjack() and dealer_hand.is_blackjack():
+        print('ふたりともブラックジャックです. Draw!')
+        return True
+      elif player_hand.is_blackjack():
+        print('あなたはブラックジャックです! You win!')
+        return True
+      elif dealer_hand.is_blackjack():
+        print('ディーラーはブラックジャックです! Dealer wins!')
+        return True
+    else:
+      if player_hand.calc_value() > dealer_hand.calc_value():
+          print('You win!')
+      elif player_hand.calc_value() == dealer_hand.calc_value():
+          print('Draw!')
+      else:
+          print('Dealer wins!')
+      return True
+    return False
+
+
+  def play(self):
+    game_to_play = 0
+
+    while game_to_play <= 0:
+      try:
+        game_to_play = int(input('何回ゲームをプレイしますか？:'))
+      except ValueError:
+        print('数字で入力してください。')
+
+game = Game()
+game.play()
 
 deck = Deck()
 deck.shuffle()
