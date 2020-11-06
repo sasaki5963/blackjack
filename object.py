@@ -63,10 +63,27 @@ class Hand():
     if ace and self.value > 21:
       self.value -= 10
 
-    return print(self.value)
+    return self.value
 
   def is_blackjack(self):
     return self.calc_value() == 21
+
+  def show(self, show_two_cards=False):
+    if self.dealer is True:
+      print('Dealer hand:')
+    else:
+      print('Your hand:')
+
+    # print(f"{'Dealer' if self.dealer else 'Your'} hand:")
+
+    for index, card in enumerate(self.cards):
+      if index == 0 and self.dealer and not show_two_cards and not self.is_blackjack():
+        pass
+      else:
+        print(card)
+    if not self.dealer:
+      print('Total:', self.calc_value())
+    print()
 
 deck = Deck()
 deck.shuffle()
@@ -74,8 +91,9 @@ deck.shuffle()
 player_hand = Hand()
 dealer_hand = Hand(dealer=True)
 
-player_hand.add_card(deck.deal())
-dealer_hand.add_card(deck.deal())
+for i in range(2):
+  player_hand.add_card(deck.deal())
+  dealer_hand.add_card(deck.deal())
 
-player_hand.calc_value()
-dealer_hand.calc_value()
+player_hand.show()
+dealer_hand.show()
