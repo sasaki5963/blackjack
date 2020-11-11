@@ -1,5 +1,6 @@
 import random
 
+
 class Card():
   def __init__(self, suit, number):
     self.suit = suit
@@ -85,6 +86,7 @@ class Hand():
       print('Total:', self.calc_value())
     print()
 
+
 class Game():
 
   def check_winner(self, player_hand, dealer_hand, game_over=False):
@@ -117,6 +119,7 @@ class Game():
 
   def play(self):
     game_to_play = 0
+    game_number = 0
 
     while game_to_play <= 0:
       try:
@@ -124,18 +127,41 @@ class Game():
       except ValueError:
         print('数字で入力してください。')
 
+    while game_number < game_to_play:
+      game_number += 1
+
+      deck = Deck()
+      deck.shuffle()
+
+      player_hand = Hand()
+      dealer_hand = Hand(dealer=True)
+
+      for i in range(2):
+        player_hand.add_card(deck.deal())
+        dealer_hand.add_card(deck.deal())
+
+      print()
+      print(f'ゲームの回数 {game_number}/{game_to_play}')
+      print()
+
+      player_hand.show()
+      dealer_hand.show()
+
+      if self.check_winner(player_hand, dealer_hand):
+        continue
+      print('① ヒットがスタンドの選択')
+
+      if self.check_winner(player_hand, dealer_hand):
+        continue
+      print('② ディーラーは17までカードを引く')
+
+      if self.check_winner(player_hand, dealer_hand):
+        continue
+      print('③ 結果発表')
+
+      self.check_winner(player_hand, dealer_hand, game_over=True)
+
+
 game = Game()
 game.play()
 
-deck = Deck()
-deck.shuffle()
-
-player_hand = Hand()
-dealer_hand = Hand(dealer=True)
-
-for i in range(2):
-  player_hand.add_card(deck.deal())
-  dealer_hand.add_card(deck.deal())
-
-player_hand.show()
-dealer_hand.show()
