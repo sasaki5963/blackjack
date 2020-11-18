@@ -1,4 +1,6 @@
 import random
+import time
+from time import sleep
 
 
 class Card():
@@ -108,11 +110,11 @@ class Game():
         return True
     else:
       if player_hand.calc_value() > dealer_hand.calc_value():
-          print('You win!')
+          print('あなたの勝ちです')
       elif player_hand.calc_value() == dealer_hand.calc_value():
-          print('Draw!')
+          print('引き分けです。')
       else:
-          print('Dealer wins!')
+          print('残念、ディーラーの勝ちです...')
       return True
     return False
 
@@ -141,7 +143,9 @@ class Game():
         dealer_hand.add_card(deck.deal())
 
       print()
+      time.sleep(1.5)
       print(f'ゲームの回数 {game_number}/{game_to_play}')
+      sleep(1)
       print()
 
       player_hand.show()
@@ -149,15 +153,32 @@ class Game():
 
       if self.check_winner(player_hand, dealer_hand):
         continue
-      print('① ヒットがスタンドの選択')
+
+      choice = ''
+      while choice not in ['s', 'stand'] and player_hand.calc_value() < 21:
+        choice = input('Hit または Stand を選択してください。 (H/T): ').lower()
+        print()
+        while choice not in ['h', 's', 'hit', 'stand']:
+          choice = input('hit or stand (H/S) を入力してください。').lower()
+          print()
+        if choice in['hit', 'h']:
+          player_hand.add_card(deck.deal())
+          player_hand.show()
 
       if self.check_winner(player_hand, dealer_hand):
         continue
-      print('② ディーラーは17までカードを引く')
+
+      while dealer_hand.calc_value() < 17:
+        dealer_hand.add_card(deck.deal())
+        dealer_hand.calc_value()
+        dealer_hand.show(show_two_cards=True)
 
       if self.check_winner(player_hand, dealer_hand):
         continue
+
       print('③ 結果発表')
+      print('Your hand:', player_hand.calc_value())
+      print('Dealer_hand:', dealer_hand.calc_value())
 
       self.check_winner(player_hand, dealer_hand, game_over=True)
 
